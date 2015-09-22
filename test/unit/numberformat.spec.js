@@ -1,5 +1,6 @@
 import {I18N} from '../../src/i18n';
 import {EventAggregator} from 'aurelia-event-aggregator';
+import Intl from 'Intl.js';
 
 describe('numberformat tests', () => {
 
@@ -54,4 +55,55 @@ describe('numberformat tests', () => {
     expect(nf.format(testNumber)).toBe('123.456,789 €');
   });
 
+  fdescribe('unformating numbers', () => {
+    beforeEach( () => {
+      sut = new I18N(new EventAggregator());
+      sut.setup({
+        resStore: {},
+        lng : 'en',
+        getAsync : false,
+        sendMissing : false,
+        fallbackLng : 'en',
+        debug : false
+      });
+
+      window.Intl.NumberFormat = Intl.NumberFormat;
+      sut.Intl.NumberFormat = Intl.NumberFormat;
+    });
+
+    it('should keep the decimal separator', () => {
+      let sample = '1,234.56';
+      let result = sut.uf(sample);
+
+      expect(result).toBe(1234.56);
+    });
+
+    it('should respect provided locale', () => {
+      let sample = '1.234,56';
+      let result = sut.uf(sample, 'de');
+
+      expect(result).toBe(1234.56);
+    });
+
+    it('should remove currency symbols', () => {
+      let sample = '$ 1,234.56';
+      let result = sut.uf(sample);
+
+      expect(result).toBe(1234.56);
+    });
+
+    it('should remove all non numeric symbols', () => {
+      let sample = '1,234.56 m/s';
+      let result = sut.uf(sample);
+
+      expect(result).toBe(1234.56);
+    });
+
+    it('should respect negative values', () => {
+      let sample = '-1,234.56';
+      let result = sut.uf(sample);
+
+      expect(result).toBe(-1234.56);
+    });
+  });
 });
