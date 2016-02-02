@@ -11,7 +11,6 @@ describe('testing relative time support', () => {
     i18n = new I18N(new EventAggregator(), new BindingSignaler());
     i18n.setup({
       lng: 'en',
-      getAsync: false,
       sendMissing: false,
       fallbackLng: 'en',
       debug: false
@@ -102,12 +101,13 @@ describe('testing relative time support', () => {
     let customInterpolationSettings = new I18N(new EventAggregator(), new BindingSignaler());
     customInterpolationSettings.setup({
       lng: 'en',
-      getAsync: false,
       sendMissing: false,
       fallbackLng: 'en',
       debug: false,
-      interpolationPrefix: '${',
-      interpolationSuffix: '}'
+      interpolation: {
+        prefix: '${',
+        suffix: '}'
+      }
     });
 
     let customSut = new RelativeTime(customInterpolationSettings);

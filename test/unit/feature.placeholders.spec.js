@@ -10,7 +10,7 @@ describe('feature verification placeholders', () => {
     let resources = {
       en: {
         translation: {
-          'demo': '__framework__ is the __quality__ framework in the world',
+          'demo': '{{framework}} is the {{quality}} framework in the world',
           'curlies': 'using curlies is {difficulty}',
           'es6interpolation': 'you can use ${type} as well'
         }
@@ -19,7 +19,7 @@ describe('feature verification placeholders', () => {
 
     sut = new I18N(new EventAggregator(), new BindingSignaler());
     sut.setup({
-      resStore: resources,
+      resources: resources,
       lng: 'en',
       getAsync: false,
       sendMissing: false,
@@ -33,7 +33,7 @@ describe('feature verification placeholders', () => {
   });
 
   it('should use curly variable handles', () => {
-    let options = { difficulty: 'easy', interpolationPrefix: '{', interpolationSuffix: '}'};
+    let options = { difficulty: 'easy', interpolation: { prefix: '{', suffix: '}'}};
 
     expect(sut.tr('curlies', options)).toBe('using curlies is easy');
   });
