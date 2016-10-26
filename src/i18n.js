@@ -4,6 +4,11 @@ import {DOM} from 'aurelia-pal';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {BindingSignaler} from 'aurelia-templating-resources';
 
+import {
+  unionArrays,
+  diffArrays
+} from './utils';
+
 export class I18N {
   static inject = [EventAggregator, BindingSignaler];
 
@@ -160,7 +165,7 @@ export class I18N {
     while (i--) {
       let key = keys[i];
       // remove the optional attribute
-      let re = /\[([a-z\-]*)\]/ig;
+      let re = /\[(\+?[a-z\-]*)\]/ig;
 
       let m;
       let attr = 'text';
@@ -241,7 +246,22 @@ export class I18N {
             node.au.controller.viewModel[attr]) {
           node.au.controller.viewModel[attr] = this.tr(key, params);
         } else {
-          node.setAttribute(attr, this.tr(key, params));
+          // check whether its an append call
+          if (attr.charAt(0) === "+") {
+            const attrName = attr.substr(1);
+            const currentValues = node.getAttribute(attrName).split(" ");
+            const newValues = this.tr(key, params).split(" ");
+            let union = unionArrays(currentValues, newValues);
+
+            if (node._appended) {
+              union = diffArrays(union, node._appended.split(" "));
+            }
+
+            node.setAttribute(attrName, union.join(" "));
+            node._appended = newValues.join(" ");
+          } else {
+            node.setAttribute(attr, this.tr(key, params));
+          }
         }
 
         break;

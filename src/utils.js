@@ -26,6 +26,14 @@ export let assignObjectToKeys = (root, obj) => {
   return opts;
 };
 
+export function diffArrays(a, b) {
+  return a.filter(i => b.indexOf(i) < 0);
+}
+
+export function unionArrays(a, b) {
+  return [...diffArrays(a, b), ...b];
+}
+
 @resolver()
 export class LazyOptional {
   constructor(key) {
