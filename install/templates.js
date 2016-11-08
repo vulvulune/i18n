@@ -26,4 +26,4 @@ module.exports = {
   IMPORT_SECTION,
   CONFIGURE_SECTION,
   TRANSLATION_TEMPLATE
-}
+};
