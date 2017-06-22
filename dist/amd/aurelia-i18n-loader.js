@@ -16,7 +16,7 @@ define(['exports'], function (exports) {
     };
 
     function Backend(services) {
-      var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+      var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
       
 
@@ -25,7 +25,7 @@ define(['exports'], function (exports) {
     }
 
     Backend.prototype.init = function init(services) {
-      var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+      var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
       this.services = services;
       this.options = defaults(options, this.options || {}, getDefaults());
@@ -62,7 +62,7 @@ define(['exports'], function (exports) {
         var ret = void 0;
         var err = void 0;
         try {
-          ret = _this.options.parse(response, url);
+          ret = response instanceof Object ? response : _this.options.parse(response, url);
         } catch (e) {
           err = 'failed parsing ' + url + ' to json';
         }

@@ -7,7 +7,7 @@ exports.RtBindingBehavior = exports.RtValueConverter = exports.TBindingBehavior 
 
 var _dec, _class, _class2, _temp, _class3, _temp2, _class4, _temp3, _dec2, _class5, _class6, _temp4, _dec3, _class7, _class8, _temp5, _class9, _temp6;
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 var _aureliaLogging = require('aurelia-logging');
 
@@ -748,7 +748,7 @@ var Backend = exports.Backend = (_temp2 = _class3 = function () {
   };
 
   function Backend(services) {
-    var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
     _classCallCheck(this, Backend);
 
@@ -757,7 +757,7 @@ var Backend = exports.Backend = (_temp2 = _class3 = function () {
   }
 
   Backend.prototype.init = function init(services) {
-    var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
     this.services = services;
     this.options = defaults(options, this.options || {}, getDefaults());
@@ -794,7 +794,7 @@ var Backend = exports.Backend = (_temp2 = _class3 = function () {
       var ret = void 0;
       var err = void 0;
       try {
-        ret = _this5.options.parse(response, url);
+        ret = response instanceof Object ? response : _this5.options.parse(response, url);
       } catch (e) {
         err = 'failed parsing ' + url + ' to json';
       }

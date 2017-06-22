@@ -15,7 +15,7 @@ var Backend = exports.Backend = (_temp = _class = function () {
   };
 
   function Backend(services) {
-    var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
     
 
@@ -24,7 +24,7 @@ var Backend = exports.Backend = (_temp = _class = function () {
   }
 
   Backend.prototype.init = function init(services) {
-    var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
     this.services = services;
     this.options = defaults(options, this.options || {}, getDefaults());
@@ -61,7 +61,7 @@ var Backend = exports.Backend = (_temp = _class = function () {
       var ret = void 0;
       var err = void 0;
       try {
-        ret = _this.options.parse(response, url);
+        ret = response instanceof Object ? response : _this.options.parse(response, url);
       } catch (e) {
         err = 'failed parsing ' + url + ' to json';
       }

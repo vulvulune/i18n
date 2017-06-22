@@ -85,8 +85,6 @@ export declare class Backend {
   readMulti(languages?: any, namespaces?: any, callback?: any): any;
   read(language?: any, namespace?: any, callback?: any): any;
   loadUrl(url?: any, callback?: any): any;
-  
-  /* no retry */
   create(languages?: any, namespace?: any, key?: any, fallbackValue?: any): any;
 }
 export declare class BaseI18N {
